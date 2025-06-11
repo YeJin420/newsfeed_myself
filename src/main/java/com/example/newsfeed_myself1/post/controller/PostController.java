@@ -9,3 +9,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class PostController {
 }
+
+// JWT 더 공부하고 세션->JWT로 바꾸기
