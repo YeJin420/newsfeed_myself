@@ -1,8 +1,6 @@
 package com.example.newsfeed_myself1.user.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +11,7 @@ import lombok.NoArgsConstructor;
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, unique = true)
@@ -27,6 +26,12 @@ public class User {
     private String profileImage;
     private String bio;
 
+    // 회원가입
+    public User(String email, String password, String username) {
+        this.email = email;
+        this.password = password;
+        this.username = username;
+    }
 
     // 프로필 수정
     public void updateProfile(String username, String profileImage, String bio) {

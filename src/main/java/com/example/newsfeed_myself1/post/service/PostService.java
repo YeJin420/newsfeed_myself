@@ -20,11 +20,13 @@ public class PostService {
     private final UserRepository userRepository;
 
     // 게시글 생성
-    public void createPost(Long userId, PostRequestDto dto) {
+    public PostResponseDto createPost(Long userId, PostRequestDto dto) {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
 
         Post post = new Post(dto.getTitle(), dto.getContent(), user);
         postRepository.save(post);
+
+        return new PostResponseDto(post);
     }
 
     // 게시글 수정

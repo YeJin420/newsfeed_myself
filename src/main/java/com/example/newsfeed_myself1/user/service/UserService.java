@@ -1,5 +1,7 @@
 package com.example.newsfeed_myself1.user.service;
 
+import com.example.newsfeed_myself1.auth.dto.LoginRequestDto;
+import com.example.newsfeed_myself1.auth.dto.SignupRequestDto;
 import com.example.newsfeed_myself1.user.dto.PasswordUpdateRequestDto;
 import com.example.newsfeed_myself1.user.dto.ProfileUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,23 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+
+    // 회원가입
+    public void signup(SignupRequestDto requestDto) {
+        String encodedPassword = passwordEncoder.encode(requestDto.getPassword());
+        User user = new User(requestDto.getEmail(), requestDto.getPassword(), requestDto.getUsername());
+    userRepository.save(user);
+    }
+
+    // 로그인
+    public User login(LoginRequestDto requestDto) {
+        User user = userRepository.findByEmail(requestDto.getEmail()).orElseThrow(() -> new IllegalArgumentException("해당 이메일의 사용자가 없습니다."));
+
+        if(!user.getPassword().equals(requestDto.getPassword())) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+        return user;
+    }
 
     // 프로필 조회
     // ID로 조회, null 체크
